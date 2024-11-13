@@ -1,0 +1,29 @@
+{
+    "suhumax": 30,
+    "suhumin": 10,
+    "suhurata": 20,
+    "nilai_suhu_max_humid_max": [
+        {
+            "idx": 1,
+            "suhun": 30,
+            "humid": 88,
+            "kecerahan": 100,
+            "timestamp": "2023-08-10 10:00:00"
+        },
+        {
+            "idx": 2,
+            "suhun": 30,
+            "humid": 88,
+            "kecerahan": 100,
+            "timestamp": "2023-08-10 10:00:00"
+        }
+    ],
+    "month_year_max": [
+        {
+            "month_year": "9-2023"
+        },
+        {
+            "month_year": "10-2023"
+        }
+    ]
+}

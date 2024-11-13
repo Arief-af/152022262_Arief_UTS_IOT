@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>152022262 - Arief Akhmad Fauzi</title>
+    <script src="script.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">152022262 - Arief Akhmad Fauzi</h1>
+        
+        
+        <div class="flex flex-col justify-center items-center md:flex-row gap-4 mt-6">
+            <div class="w-full md:w-1/2 bg-gray-800  p-4 rounded-lg shadow-md">
+                <h2 class="text-xl text-center font-semibold mb-4">Tabel Data Sensor</h2>
+                <div id="summary" class="text-center mb-4">
+                    <p class="text-lg font-semibold">Suhu Rata-Rata: <span id="suhurata" class="text-blue-400"></span>°C</p>
+                    <p class="text-lg font-semibold">Suhu Maksimum: <span id="suhumax" class="text-red-400"></span>°C</p>
+                    <p class="text-lg font-semibold">Suhu Minimum: <span id="suhumin" class="text-green-400"></span>°C</p>
+                </div>
+                <h2 class="text-xl text-center font-semibold mb-4">Month-Year Data</h2>
+                <div class="mb-5 overflow-y-auto" style="max-height: 200px;">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-gray-700">
+                                <th class="px-4 py-2">Month-Year</th>
+                            </tr>
+                        </thead>
+                        <tbody id="month-year-rows" class="divide-y divide-gray-600">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="overflow-y-auto" style="height: 400px;">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-gray-700">
+                                <th class="px-4 py-2">Waktu</th>
+                                <th class="px-4 py-2">Suhu</th>
+                                <th class="px-4 py-2">Kelembaban</th>
+                                <th class="px-4 py-2">Kecerahan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-rows" class="divide-y divide-gray-600">
+                        </tbody>
+                    </table>
+                </div>
+
+                
+            </div>
+
+            <div style="height: 700px;" class="w-full overflow-y-auto md:w-1/2 bg-gray-800 p-4 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">JSON Response</h2>
+                <pre id="json-output" class="bg-gray-900 text-gray-300 p-4 rounded-md"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        fetch('http://localhost:3000/api/dht')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('suhumax').textContent = data.suhumax;
+                document.getElementById('suhumin').textContent = data.suhumin;
+                document.getElementById('suhurata').textContent = data.suhurata;
+
+                const dataRows = document.getElementById('data-rows');
+                data.nilai_suhu_max_humid_max.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-4 py-2 text-center">${new Date(item.timestamps).toLocaleString()}</td>
+                        <td class="px-4 py-2 text-center">${item.suhun}°C</td>
+                        <td class="px-4 py-2 text-center">${item.humid}%</td>
+                        <td class="px-4 py-2 text-center">${item.kecerahan}</td>
+                    `;
+                    dataRows.appendChild(row);
+                });
+
+                const monthYearRows = document.getElementById('month-year-rows');
+                data.month_year.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td class="px-4 py-2 text-center">${item.month_year}</td>`;
+                    monthYearRows.appendChild(row);
+                });
+
+                const jsonOutput = document.getElementById('json-output');
+                jsonOutput.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+</body>
+
+</html>
