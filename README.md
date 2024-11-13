@@ -7,7 +7,7 @@
 ## Persyaratan
 - **Node.js** atau **Bun** untuk menjalankan aplikasi
 
-## Persiapan Lingkungan
+## Persiapan
 1. Buat file `.env` di root project:
    - Anda bisa menyalin konfigurasi dari file `.env.example`.
    - Sesuaikan konfigurasi database sesuai dengan kebutuhan.
